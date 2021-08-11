@@ -14,8 +14,8 @@ using namespace std;
 /*
 * Tetris class:
 * The original code was developed by Fam Trinliin 
-*his YouTube channel (see the following URL):  https://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.
-*we use the concepts of electronic game  and competetive game here
+* his YouTube channel (see the following URL):  https://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.
+* we use the concepts of electronic game  and competetive game here
 */
 
 // TETRIS gMAE - Source
@@ -169,7 +169,7 @@ public:
 			// TODO: Updates the posXusing the figures in the position given by currentBlock
 		}
 	}
-	inline int play(Player player, long currentTimeout, int currentTurn, int limTimeout) {
+	inline int play( long currentTimeout, int currentTurn, Player player, int limTimeout) {
 
 		// Game Model
 		int model[MAXLIN][MAXCOL] = { 0 };
