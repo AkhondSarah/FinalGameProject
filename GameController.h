@@ -114,7 +114,7 @@ public:
 		string gametitle = "Tetris Results"; 
 		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle); 
 		Texture t1; 
-		t1.loadFromFile("tetris2.png"); 
+		t1.loadFromFile("images/tetris2.png"); 
 		Sprite background(t1);
 		// Basic loop; renderization
 		int returnValue = -1;
