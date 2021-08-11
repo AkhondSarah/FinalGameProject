@@ -94,9 +94,12 @@ public:
 		//neil you're gonn ahve to work out this part
 		string gametitle = "Tetris Results"; 
 		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle); 
-		Texture t1; 
-		t1.loadFromFile("images/tetris2.png"); 
-		Sprite background(t1);
+		sf::Texture t1; 
+		t1.loadFromFile("tetris0.png"); //currently png is in x64-Debug folder
+		sf::Sprite background;
+		background.setTexture(t1);
+		window.draw(background);
+		window.display();
 		// Basic loop; renderization
 		int returnValue = -1;
 		while (window.isOpen() && returnValue == -1) {
