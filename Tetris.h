@@ -1,6 +1,6 @@
 #pragma once
-//#include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include <vector>
 #include <iostream>
@@ -181,8 +181,7 @@ public:
 		bool rotate = false;
 		bool stop = false;
 		// TODO: Create variables to use information to be shown. Ex: points from
+		return 1;
 	}
-
-
 
 };

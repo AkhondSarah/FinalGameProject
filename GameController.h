@@ -1,7 +1,7 @@
 #pragma once
 
-//#include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <time.h>
 #include <vector>
 #include <iostream>
@@ -98,7 +98,6 @@ public:
 			Player player;
 			player = Player("Player_" + to_string(i));
 			list.push_back(player);
-
 		}
 		return list;
 	}
@@ -128,7 +127,7 @@ public:
 				}
 				//Test Keyboard
 				if (e.type == Event::KeyPressed) {
-					if (e.key.code == Keyboards::Num0) {
+					if (e.key.code == Keyboard::Num0) {
 						returnValue = 0;
 						break;
 					}// if
@@ -144,6 +143,7 @@ public:
 		window.clear();
 		window.draw(background); 
 		window.display();
+		return returnValue;
 	}//opengame()
 	/*
 	* tetrisElectronics: implementation for one-single playerof Tetrisexecution
@@ -159,7 +159,7 @@ public:
 		int currentPoints;
 		int timer;
 		int currPlayer = 0;
-		Tetris game = new Tetris();
+		Tetris game = Tetris();
 		while (timer <= timeout) {
 			// Update the current timeout
 			long curTimeout = getTimeout();
@@ -168,25 +168,28 @@ public:
 			// TODO: Later, update the timeout and set it (chose the better strategy to update
 			setTimeout(curTimeout);
 			// TODO: Remember to update also the player...
-			playersList[currPlayer].setPoints();
+			playersList[currPlayer].setPoints(currentPoints);
 			
 		}
 	}
 	
-		inline void tetrisCompetitive() {
+		inline void tetrisCompetitive(int numPlayers) {
 			int curTurn;
 			Player player;
 			int currentPoints;
 			int timer;
+			Tetris game = Tetris();
 			while (curTurn <= numTurns) {
 				// Initialization of players
 				int currPlayer = 0;
 				while (currPlayer < numPlayers) {
-					player = list.at(currPlayer);
+					player = playersList.at(currPlayer);
+					// Update the current timeout
+					long curTimeout = getTimeout();
 					// Execute the Tetris, returning the points for this player
 					currentPoints = game.play(player, curTimeout, curTurn, GameController::LIMITEDTIME);
 					// Updates the points
-					list.at(currPlayer).setPoints(currentPoints);
+					playersList.at(currPlayer).setPoints(currentPoints);
 					currPlayer++;
 				} 
 				// Turn update

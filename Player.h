@@ -22,7 +22,13 @@ public:
     static const int DEFAULT_POINTS = 0;
 
     // Constructors
+    Player() {
+        this->name = "NoName";
+    }
+    Player(std::string name) {
+        this->name = name;
 
+    }
     /*
     * sets points
     */

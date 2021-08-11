@@ -58,7 +58,7 @@ int main()
 			// Game execution
 
 			controler.tetrisElectronic();
-		    controler.showResults();
+		   // controler.showResults();
 		}   
 		// Continue the other cases here(for Competitive and Mixed games)...
 	}
