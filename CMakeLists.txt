@@ -7,3 +7,9 @@ cmake_minimum_required (VERSION 3.8)
 add_executable (FinalProjectGame "FinalProjectGame.cpp"   "GameController.h" "Player.h" "Tetris.h")
 
 # TODO: Add tests and install targets if needed.
+target_include_directories(FinalProjectGamePUBLIC "sfml/include")
+target_link_directories(FinalProjectGamePUBLIC "sfml/lib")
+target_link_libraries(FinalProjectGamePUBLIC "openal32.dll")
+target_link_libraries(FinalProjectGamePUBLIC "sfml-system-d.dll")
+target_link_libraries(FinalProjectGamePUBLIC "sfml-window-d.dll")
+target_link_libraries(FinalProjectGamePUBLIC "sfml-graphics-d.dll")
