@@ -28,7 +28,7 @@ public:
 	//Positions (GRID)
 	static const int MAXLIN = 20;
 	static const int MAXCOL = 20;
-	//Picture representation
+	//Picture representation 
 	static const int DIM = 4;
 	//Number of blocks
 	static const int NFIG = 18;
@@ -156,27 +156,120 @@ public:
 		for (int i = 0; i < DIM; i++) {
 			space[posX[i].y][posX[i].x] = colorNum;
 		}
-		// TODO: Creates a new currentBlock randomly
+		currentBlock = rand() % NFIG;
+		//for (int i = 0; i < DIM; i++) {
+		//	posX[i].x = figures[currentBlock][i] % 2;
+		//	posX[i].y = figures[currentBlock][i] % 2;
+		//}
 		return currentBlock;
 	}
 	void updateBlock(int currentBlock, int dx) {
 		for (int i = 0; i < DIM; i++) {
-			// TODO: Updates the posXusing the figures in the position given by currentBlock
+			posX[i].x = figures[currentBlock][i];
+			posX[i].x += dx;
+			posX[i].y = figures[currentBlock][i];
 		}
 	}
-	inline int play(long currentTimeout, int currentTurn, Player player, int limTimeout) {
+	inline int play(long curTimeout, int curTurn, Player player, int limTimeout) {
 
 		// Game Model
 		int model[MAXLIN][MAXCOL] = { 0 };
 		// Timeout
 		Clock clock;
 		// Default delay
-		float delay = 0.3f / currentTimeout;// Accelerate the game according to the current turn
-	 // Boolean variables for execution
+		float delay = 0.3f / curTimeout;// Accelerate the game according to the current turn
+		// Boolean variables for execution
 		bool rotate = false;
 		bool stop = false;
-		// TODO: Create variables to use information to be shown. Ex: points from
-		return 1;
-	}
-
+		int totpoints = player.getPoints();
+		string playername = player.getName();
+		bool isFinished = false;
+		bool endGame = false;
+		float timer = 0; 
+		int dx;
+		int colorNum = 1;
+		string title;
+		Text text;
+		
+		
+		//Window definition
+		RenderWindow window(VideoMode(WIDTH, HEIGHT), "Tetris");
+		// Texture to be used
+		Texture t1, t2;
+		t1.loadFromFile("tiles.png"); // Tiles tocompose blocks
+		t2.loadFromFile("tetris1.png"); //Background
+		Sprite space(t1), background(t2);
+		//Main loop: While the window is not closed and there is possibility to continue playing 
+		while (window.isOpen() && !isFinished && !endGame) {
+			//Start and updates the timer
+			float time = clock.getElapsedTime().asSeconds();
+			clock.restart();
+			timer += time;
+		}
+		//Event evalution
+		Event e;
+		while (window.pollEvent(e)) {
+			//TODO: Check the events that user can do (movemoents)
+			//TODO: Include an option to "freeze": when space bar is pressed
+			//TODO:Also include an option when "Escape" ends the game
+		} // While: Keyboard event 
+		//TODO: Invoke functions that comes from user actions
+		//Clock update 
+		if (timer > delay && !stop) {
+			//TODO: Action independent from user
+			//Movements from block
+			if (nextMovement(model)) {
+				//TODO: Create the block (createBlock)
+				//TODO: Generate the new color (use rand ove NCOLOR)
+				// TODO: Calculate the variation dx
+				// TODO: Update the block (updateBlock)
+				// TODO: Update the total of points (from currentBlock)	
+			}
+			// TODO: Update the timeout
+			// TODO: Check if you can end the game according to the timeout
+			// TODO: Reinitialize the timer.
+		}
+		// Update data if game is not finished
+		if (!endGame) {
+			// TODO: Check if the last level is complete (checksFill).
+			// Update from movement (and clock)
+			dx = 0;
+			rotate = 0;
+			delay = 0.3f / curTurn; // The delay will be shorter when number of turns increases
+			// Cleaning the window
+			window.clear(Color::Black);
+			window.draw(background);
+			// Refresh of all blocks
+			for (int i = 0; i < MAXLIN; i++){
+				for (int j = 0; j < MAXCOL; j++) {
+					if (model[i][j] == 0) {
+						continue;
+					}
+					// Tetris renderization
+					space.setTextureRect(IntRect(model[i][j] * PIX, 0, PIX, PIX));
+					space.setPosition((float)j * PIX, (float)i * PIX);
+					space.move(28, 31); // positional adjustment
+					window.draw(space);
+				}
+			}
+			// New block renderization
+			for (int i = 0; i < DIM; i++) {
+				space.setTextureRect(IntRect(colorNum * PIX, 0, PIX, PIX));
+				space.setPosition((float)posX[i].x * PIX, (float)posX[i].y * PIX);
+				space.move(28, 31); // positional adjustment
+				window.draw(space);
+			}
+			// TODO: Evaluate the next movement (nextMovement).
+			// Update message in the game
+			title = "Turn: " + to_string(curTurn) + " - Player: " + playername +
+				", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)curTimeout);
+			text.setString(title);
+			window.draw(text);
+			window.display();
+		} // If not end
+		//return value
+		return totpoints;
+	} // Main loop
+	
+	
 };
