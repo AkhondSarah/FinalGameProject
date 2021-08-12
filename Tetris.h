@@ -209,29 +209,53 @@ public:
 		//Event evalution
 		Event e;
 		while (window.pollEvent(e)) {
-			//TODO: Check the events that user can do (movemoents)
-			//TODO: Include an option to "freeze": when space bar is pressed
-			//TODO:Also include an option when "Escape" ends the game
+			if (e.type == Event::KeyPressed) {
+				if (Keyboard::isKeyPressed(Keyboard::Down)) {
+					delay = 0.05;
+				}
+				else if (e.key.code == Keyboard::Up) {
+					rotationalMovement(model);
+				}
+				else if (e.key.code == Keyboard::Left) {
+					dx = -1;
+					horizontalMovement(model, dx);
+				}
+				else if (e.key.code == Keyboard::Right) {
+					dx = 1;
+					horizontalMovement(model, dx);
+				}
+				else if (e.key.code == Keyboard::Down) {
+					downMovement();
+				}
+			}
+			if (e.type == Event::Closed) {
+				window.close();
+			}
 		} // While: Keyboard event 
-		//TODO: Invoke functions that comes from user actions
 		//Clock update 
 		if (timer > delay && !stop) {
 			//TODO: Action independent from user
 			//Movements from block
 			if (nextMovement(model)) {
-				//TODO: Create the block (createBlock)
-				//TODO: Generate the new color (use rand ove NCOLOR)
-				// TODO: Calculate the variation dx
-				// TODO: Update the block (updateBlock)
-				// TODO: Update the total of points (from currentBlock)	
+				int newBlock = createBlock(model, colorNum);
+
+				colorNum = rand() % NCOLOR;
+
+				// TODO: Calculate the variation dx ?????
+
+				updateBlock(newBlock, dx);
+
+				totpoints += points[newBlock];
 			}
-			// TODO: Update the timeout
-			// TODO: Check if you can end the game according to the timeout
-			// TODO: Reinitialize the timer.
+			curTimeout += timer;
+			if (curTimeout > limTimeout) {
+				endGame = true;
+			}
+			timer = 0;
 		}
 		// Update data if game is not finished
 		if (!endGame) {
-			// TODO: Check if the last level is complete (checksFill).
+			checksFill(model);
 			// Update from movement (and clock)
 			dx = 0;
 			rotate = 0;
@@ -240,7 +264,7 @@ public:
 			window.clear(Color::Black);
 			window.draw(background);
 			// Refresh of all blocks
-			for (int i = 0; i < MAXLIN; i++){
+			for (int i = 0; i < MAXLIN; i++) {
 				for (int j = 0; j < MAXCOL; j++) {
 					if (model[i][j] == 0) {
 						continue;
@@ -260,13 +284,16 @@ public:
 				window.draw(space);
 			}
 			// TODO: Evaluate the next movement (nextMovement).
+			if (nextMovement(model) == false) {
+				stop = true;
+			}
 			// Update message in the game
 			title = "Turn: " + to_string(curTurn) + " - Player: " + playername +
 				", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)curTimeout);
 			text.setString(title);
 			window.draw(text);
 			window.display();
-		} // If not end
+		}//if not end
 		//return value
 		return totpoints;
 	} // Main loop
