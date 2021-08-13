@@ -91,12 +91,11 @@ public:
 	*/
 	inline int openGame() {
 		// Main screen : Title and dimension
-		//neil you're gonn ahve to work out this part
 		string gametitle = "Tetris Game"; 
 		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle); 
-		sf::Texture t1; 
+		Texture t1; 
 		t1.loadFromFile("tetris0.png"); //currently png is in x64-Debug folder
-		sf::Sprite background;
+		Sprite background;
 		background.setTexture(t1);
 		window.draw(background);
 		window.display();
@@ -134,16 +133,80 @@ public:
 					}
 					else if (e.key.code == Keyboard::Escape) {
 						//returns a value that will close the window
+						returnValue = 0;
+						break;
 					}
 				}//keyboard
 			}//while
+			window.clear();
+			window.draw(background);
+			window.display();
 		}//while
-		window.clear();
+		
+		/*window.clear();
 		window.draw(background); 
-		window.display();
+		window.display();*/
 		return returnValue;
 	}//opengame()
+	
 	/*
+	Function Name: showResults
+	Purpose: 
+	Parameters: none
+	Return Value: none
+	*/
+	inline void showResults() {
+		vector<Player>listPlayers = getPlayersList();
+		//modify the window
+		string gametitle = "Tetris Results";
+		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
+		Texture t3;
+		t3.loadFromFile("tetris2.png"); //currently png is in x64-Debug folder
+		Sprite background(t3);
+		background.setTexture(t3);
+		//window.draw(background);
+		//Set Font
+		Font font;
+		font.loadFromFile("font/sansation.tff");
+
+		//while(window.isOpen() && stop == false){
+			//Event e;
+			//while (window.pollEvent(e)) {}
+
+		//display results for all players
+		string results;
+		//int i;
+		//for (i = 1; i <= numPlayers; i++) {
+		//results = //do I get all the players info or just their points here? use an iterator?
+			Text text;
+			text.setFont(font);
+			text.setCharacterSize(14);
+			text.setFillColor(Color::Yellow);
+			text.setString(results);
+			text.setPosition(40.f, 80.f);
+			window.draw(text);
+		//}
+
+		//display winner info
+		string winner;
+		//get winner info
+		Text champ;
+		champ.setFont(font);
+		champ.setCharacterSize(16);
+		champ.setString(winner);
+		champ.setPosition(40.f, 330.f);
+		window.draw(champ);
+		
+		window.clear();
+		window.draw(background);
+		window.draw(text);
+		window.draw(champ);
+		window.display();
+
+		//}//end of while isOpen
+	}
+	 
+	 /*
 	* tetrisElectronics: implementation for one-single playerof Tetrisexecution
 	* - Return:
 	*  Kind of game to play
@@ -156,6 +219,16 @@ public:
 		double timer = 0; // start timer at 0
 		int currPlayer = 0;
 		Tetris game = Tetris();
+
+		string gametitle = "Tetris Electronic Game";
+		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
+		Texture t2;
+		t2.loadFromFile("tetris1.png"); //currently png is in x64-Debug folder
+		Sprite background;
+		background.setTexture(t2);
+		window.draw(background);
+		window.display();
+
 		while (timer <= GameController::MAXTIMEOUT) {
 			// Update the current timeout
 			long curTimeout = getTimeout();

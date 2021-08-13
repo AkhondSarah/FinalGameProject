@@ -58,8 +58,16 @@ int main()
 			// Game execution
 
 			controler.tetrisElectronic();
-		   // controler.showResults();
-		}   
-		// Continue the other cases here(for Competitive and Mixed games)...
+		    controler.showResults();
+		}
+		else if (answer == 2) {
+			//controler.tetrisCompetetive();
+
+		}
+		else if (answer == 3) {
+			//controler.tetrisMixed();
+
+		}
+			
 	}
 }
