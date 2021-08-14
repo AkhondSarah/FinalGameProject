@@ -37,6 +37,7 @@ int main()
 	controler.setNumTurns(numTurns);
 	// Main menu
 	while(!final) {
+		
 		answer = controler.openGame();// Function to be detailed later
 		if (answer == 0) {
 			final = true;

@@ -199,6 +199,9 @@ public:
 		t1.loadFromFile("tiles.png"); // Tiles tocompose blocks
 		t2.loadFromFile("tetris1.png"); //Background
 		Sprite space(t1), background(t2);
+		//window.clear();
+		window.draw(background);
+		window.display();
 		//Main loop: While the window is not closed and there is possibility to continue playing 
 		while (window.isOpen() && !isFinished && !endGame) {
 			//Start and updates the timer

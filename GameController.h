@@ -22,8 +22,13 @@ private:
 	long timeout = 0;
 	//Number of turns
 	int numTurns = 0;
+
+	//RenderWindow* windowPtr;
+	//string gametitle = "Tetris Game";
+	//RenderWindow window;
 public:
 	enum GAMETYPE {ELECTRONIC, COMPETETIVE, MIXED};
+	
 	// Game constants
 	static const long MAXTIMEOUT = 30;
 	static const long MAXTURNS = 3;
@@ -93,12 +98,14 @@ public:
 		// Main screen : Title and dimension
 		string gametitle = "Tetris Game"; 
 		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle); 
+		//window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
+		//windowPtr = &window;
 		Texture t1; 
 		t1.loadFromFile("tetris0.png"); //currently png is in x64-Debug folder
 		Sprite background;
 		background.setTexture(t1);
-		window.draw(background);
-		window.display();
+		//window.draw(background);
+		//window.display();
 		// Basic loop; renderization
 		int returnValue = -1;
 		while (window.isOpen() && returnValue == -1) {
@@ -115,11 +122,6 @@ public:
 						break;
 					}// if
 					else if (e.key.code == Keyboard::Num1) {
-						//sf::Image image1;
-						//image1.loadFromFile("tetris1.png");
-						//t1.update(image1); //change background image
-						//clear
-						
 						returnValue = 1;
 						break;
 					}//else if
@@ -159,12 +161,12 @@ public:
 		vector<Player>listPlayers = getPlayersList();
 		//modify the window
 		string gametitle = "Tetris Results";
-		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
-		Texture t3;
+		//RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
+		/*Texture t3;
 		t3.loadFromFile("tetris2.png"); //currently png is in x64-Debug folder
 		Sprite background(t3);
 		background.setTexture(t3);
-		//window.draw(background);
+		window.draw(background);*/
 		//Set Font
 		Font font;
 		font.loadFromFile("font/sansation.tff");
@@ -175,17 +177,19 @@ public:
 
 		//display results for all players
 		string results;
-		//int i;
-		//for (i = 1; i <= numPlayers; i++) {
-		//results = //do I get all the players info or just their points here? use an iterator?
-			Text text;
+		Text text;
+		int i;
+		for (i = 0; i <= playersList.size(); i++) {
+		//results = (listPlayers); //do I get all the players info or just their points here? use an iterator?
+			results = "Name: " + playersList.at(i).getName();// +" Points: " + playersList.at(i).Player::getPoints();
+			//Text text;
 			text.setFont(font);
 			text.setCharacterSize(14);
 			text.setFillColor(Color::Yellow);
 			text.setString(results);
 			text.setPosition(40.f, 80.f);
-			window.draw(text);
-		//}
+			//window.draw(text);
+		}
 
 		//display winner info
 		string winner;
@@ -195,13 +199,13 @@ public:
 		champ.setCharacterSize(16);
 		champ.setString(winner);
 		champ.setPosition(40.f, 330.f);
-		window.draw(champ);
+		/*window.draw(champ);
 		
 		window.clear();
 		window.draw(background);
 		window.draw(text);
 		window.draw(champ);
-		window.display();
+		window.display();*/
 
 		//}//end of while isOpen
 	}
@@ -220,15 +224,6 @@ public:
 		int currPlayer = 0;
 		Tetris game = Tetris();
 
-		string gametitle = "Tetris Electronic Game";
-		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
-		Texture t2;
-		t2.loadFromFile("tetris1.png"); //currently png is in x64-Debug folder
-		Sprite background;
-		background.setTexture(t2);
-		window.draw(background);
-		window.display();
-
 		while (timer <= GameController::MAXTIMEOUT) {
 			// Update the current timeout
 			long curTimeout = getTimeout();
@@ -241,8 +236,12 @@ public:
 			setTimeout((long)timer);
 			//update players points
 			playersList.at(currPlayer).setPoints(currentPoints);
+			
+			
 		}
+		
 	}
+
 	inline void tetrisCompetitive(int numPlayers) {
 		int curTurn;
 		Player player;
