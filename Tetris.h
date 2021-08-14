@@ -28,7 +28,7 @@ public:
 	//Positions (GRID)
 	static const int MAXLIN = 20;
 	static const int MAXCOL = 20;
-	//Picture representation 
+	//Picture representation
 	static const int DIM = 4;
 	//Number of blocks
 	static const int NFIG = 18;
@@ -59,9 +59,9 @@ private:
 		3,5,7,6, // 4- l shaped
 		1,3,5,7, // 4-a vertical line of 4 block
 		2,4,6,7, // 4-L shaped  opposite
-		1,2,4,6, // 4 blocks 
+		1,2,4,6, // 4 blocks
 		1,2,5,7, // 4 blocks
-		7,4,2,0 // 4 blcoks(18)	
+		7,4,2,0 // 4 blcoks(18)
 	};
 	// Points per block
 	const int points[NFIG] = {
@@ -185,13 +185,13 @@ public:
 		string playername = player.getName();
 		bool isFinished = false;
 		bool endGame = false;
-		float timer = 0; 
+		float timer = 0;
 		int dx;
 		int colorNum = 1;
 		string title;
 		Text text;
-		
-		
+
+
 		//Window definition
 		RenderWindow window(VideoMode(WIDTH, HEIGHT), "Tetris");
 		// Texture to be used
@@ -202,104 +202,105 @@ public:
 		//window.clear();
 		window.draw(background);
 		window.display();
-		//Main loop: While the window is not closed and there is possibility to continue playing 
+		//Main loop: While the window is not closed and there is possibility to continue playing
 		while (window.isOpen() && !isFinished && !endGame) {
 			//Start and updates the timer
 			float time = clock.getElapsedTime().asSeconds();
 			clock.restart();
 			timer += time;
-		}
-		//Event evalution
-		Event e;
-		while (window.pollEvent(e)) {
-			if (e.type == Event::KeyPressed) {
-				if (Keyboard::isKeyPressed(Keyboard::Down)) {
-					delay = 0.05;
-				}
-				else if (e.key.code == Keyboard::Up) {
-					rotationalMovement(model);
-				}
-				else if (e.key.code == Keyboard::Left) {
-					dx = -1;
-					horizontalMovement(model, dx);
-				}
-				else if (e.key.code == Keyboard::Right) {
-					dx = 1;
-					horizontalMovement(model, dx);
-				}
-				else if (e.key.code == Keyboard::Down) {
-					downMovement();
-				}
-			}
-			if (e.type == Event::Closed) {
-				window.close();
-			}
-		} // While: Keyboard event 
-		//Clock update 
-		if (timer > delay && !stop) {
-			//TODO: Action independent from user
-			//Movements from block
-			if (nextMovement(model)) {
-				int newBlock = createBlock(model, colorNum);
 
-				colorNum = rand() % NCOLOR;
-
-				// TODO: Calculate the variation dx ?????
-
-				updateBlock(newBlock, dx);
-
-				totpoints += points[newBlock];
-			}
-			curTimeout += timer;
-			if (curTimeout > limTimeout) {
-				endGame = true;
-			}
-			timer = 0;
-		}
-		// Update data if game is not finished
-		if (!endGame) {
-			checksFill(model);
-			// Update from movement (and clock)
-			dx = 0;
-			rotate = 0;
-			delay = 0.3f / curTurn; // The delay will be shorter when number of turns increases
-			// Cleaning the window
-			window.clear(Color::Black);
-			window.draw(background);
-			// Refresh of all blocks
-			for (int i = 0; i < MAXLIN; i++) {
-				for (int j = 0; j < MAXCOL; j++) {
-					if (model[i][j] == 0) {
-						continue;
+			//Event evalution
+			Event e;
+			while (window.pollEvent(e)) {
+				if (e.type == Event::KeyPressed) {
+					if (Keyboard::isKeyPressed(Keyboard::Down)) {
+						delay = 0.05;
 					}
-					// Tetris renderization
-					space.setTextureRect(IntRect(model[i][j] * PIX, 0, PIX, PIX));
-					space.setPosition((float)j * PIX, (float)i * PIX);
+					else if (e.key.code == Keyboard::Up) {
+						rotationalMovement(model);
+					}
+					else if (e.key.code == Keyboard::Left) {
+						dx = -1;
+						horizontalMovement(model, dx);
+					}
+					else if (e.key.code == Keyboard::Right) {
+						dx = 1;
+						horizontalMovement(model, dx);
+					}
+					else if (e.key.code == Keyboard::Down) {
+						downMovement();
+					}
+				}
+				if (e.type == Event::Closed) {
+					window.close();
+				}
+			} // While: Keyboard event
+
+			//Clock update
+			if (timer > delay && !stop) {
+				//TODO: Action independent from user
+				//Movements from block
+				if (nextMovement(model)) {
+					int newBlock = createBlock(model, colorNum);
+
+					colorNum = rand() % NCOLOR;
+
+					// TODO: Calculate the variation dx ?????
+
+					updateBlock(newBlock, dx);
+
+					totpoints += points[newBlock];
+				}
+				curTimeout += timer;
+				if (curTimeout > limTimeout) {
+					endGame = true;
+				}
+				timer = 0;
+			}
+
+			// Update data if game is not finished
+			if (!endGame) {
+				checksFill(model);
+				// Update from movement (and clock)
+				dx = 0;
+				rotate = 0;
+				delay = 0.3f / curTurn; // The delay will be shorter when number of turns increases
+				// Cleaning the window
+				window.clear(Color::Black);
+				window.draw(background);
+				// Refresh of all blocks
+				for (int i = 0; i < MAXLIN; i++) {
+					for (int j = 0; j < MAXCOL; j++) {
+						if (model[i][j] == 0) {
+							continue;
+						}
+						// Tetris renderization
+						space.setTextureRect(IntRect(model[i][j] * PIX, 0, PIX, PIX));
+						space.setPosition((float)j * PIX, (float)i * PIX);
+						space.move(28, 31); // positional adjustment
+						window.draw(space);
+					}
+				}
+				// New block renderization
+				for (int i = 0; i < DIM; i++) {
+					space.setTextureRect(IntRect(colorNum * PIX, 0, PIX, PIX));
+					space.setPosition((float)posX[i].x * PIX, (float)posX[i].y * PIX);
 					space.move(28, 31); // positional adjustment
 					window.draw(space);
 				}
-			}
-			// New block renderization
-			for (int i = 0; i < DIM; i++) {
-				space.setTextureRect(IntRect(colorNum * PIX, 0, PIX, PIX));
-				space.setPosition((float)posX[i].x * PIX, (float)posX[i].y * PIX);
-				space.move(28, 31); // positional adjustment
-				window.draw(space);
-			}
-			// TODO: Evaluate the next movement (nextMovement).
-			if (nextMovement(model) == false) {
-				stop = true;
-			}
-			// Update message in the game
-			title = "Turn: " + to_string(curTurn) + " - Player: " + playername +
-				", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)curTimeout);
-			text.setString(title);
-			window.draw(text);
-			window.display();
-		}//if not end
+				// TODO: Evaluate the next movement (nextMovement).
+				if (nextMovement(model) == false) {
+					stop = true;
+				}
+				// Update message in the game
+				title = "Turn: " + to_string(curTurn) + " - Player: " + playername +
+					", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)curTimeout);
+				text.setString(title);
+				window.draw(text);
+				window.display();
+			}//if not end
+		}
 		//return value
 		return totpoints;
 	} // Main loop
-	
-	
 };
