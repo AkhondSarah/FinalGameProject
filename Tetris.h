@@ -157,10 +157,10 @@ public:
 			space[posX[i].y][posX[i].x] = colorNum;
 		}
 		currentBlock = rand() % NFIG;
-		//for (int i = 0; i < DIM; i++) {
-		//	posX[i].x = figures[currentBlock][i] % 2;
-		//	posX[i].y = figures[currentBlock][i] % 2;
-		//}
+		for (int i = 0; i < DIM; i++) {
+			posX[i].x = figures[currentBlock][i] % 2;
+			posX[i].y = figures[currentBlock][i] % 2;
+		}
 		return currentBlock;
 	}
 	void updateBlock(int currentBlock, int dx) {
