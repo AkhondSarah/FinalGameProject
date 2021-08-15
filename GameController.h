@@ -267,11 +267,11 @@ public:
 		}
 	}
 
-	inline void tetrisMixed() {
+	inline void tetrisMixed(int numberPlayers) {
 		int curTurn = 0;
 		Player player;
 		int currentPoints;
-		int numPlayers = playersList.size(); //numPlayers is given by the size of players’ list
+		int numPlayers = numberPlayers; //numPlayers is given by the size of players’ list
 		double timer = 0;
 		Tetris game = Tetris();
 

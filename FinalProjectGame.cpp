@@ -71,8 +71,13 @@ int main()
 			controler.showResults();
 		}
 		else if (answer == 3) {
-			controler.tetrisMixed();
-			//controler.showResults();
+			// Mixed Game
+			int numPlayers = 3;
+			vector<Player> list = controler.createPlayersList(numPlayers);
+			controler.setPlayerList(list);
+			
+			controler.tetrisMixed(numPlayers);
+			controler.showResults();
 		}
 			
 	}
