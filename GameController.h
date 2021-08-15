@@ -28,7 +28,7 @@ private:
 	//RenderWindow window;
 public:
 	enum GAMETYPE {ELECTRONIC, COMPETETIVE, MIXED};
-	
+	Font font;
 	// Game constants
 	static const long MAXTIMEOUT = 30;
 	static const long MAXTURNS = 3;
@@ -161,14 +161,14 @@ public:
 		vector<Player>listPlayers = getPlayersList();
 		//modify the window
 		string gametitle = "Tetris Results";
-		//RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
-		/*Texture t3;
+		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
+		Texture t3;
 		t3.loadFromFile("tetris2.png"); //currently png is in x64-Debug folder
 		Sprite background(t3);
 		background.setTexture(t3);
-		window.draw(background);*/
+		window.draw(background);
 		//Set Font
-		Font font;
+		//Font font;
 		font.loadFromFile("font/sansation.tff");
 
 		//while(window.isOpen() && stop == false){
@@ -243,7 +243,7 @@ public:
 	}
 
 	inline void tetrisCompetitive(int numPlayers) {
-		int curTurn;
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
 		int timer;
@@ -268,7 +268,7 @@ public:
 	}
 
 	inline void tetrisMixed() {
-		int curTurn;
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
 		int numPlayers = playersList.size(); //numPlayers is given by the size of players’ list
