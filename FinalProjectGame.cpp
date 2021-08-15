@@ -18,7 +18,7 @@ int main()
 	// Main Controller
 	GameController controler = GameController();
 
-	// user answer (by keyboard)
+	//// user answer (by keyboard)
 	int answer = -1;
 	// defines the end of the game
 	bool final = false;

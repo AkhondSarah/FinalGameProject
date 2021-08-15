@@ -11,18 +11,15 @@
 using namespace sf;
 using namespace std;
 
-/*
-* Tetris class:
-* The original code was developed by Fam Trinliin
-* his YouTube channel (see the following URL):  https://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.
-* we use the concepts of electronic game  and competetive game here
+/*Tetris class :
+	*The original code was developed by Fam Trinliin
+	* his YouTube channel(see the following URL) : https ://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.
+	*we use the concepts of electronic gameand competetive game here
 */
-
-// TETRIS Game - Source
-
 class Tetris {
+
 public:
-	// Size of the screen
+	//Size of the screen
 	static const int WIDTH = 480;
 	static const int HEIGHT = 480;
 	//Positions (GRID)
@@ -30,20 +27,21 @@ public:
 	static const int MAXCOL = 20;
 	//Picture representation
 	static const int DIM = 4;
-	//Number of blocks
+	// Number of blocks
 	static const int NFIG = 18;
-	//Number of color
 	static const int NCOLOR = 16;
-	//Pixel size
+	// Pixel size
 	static const int PIX = 18;
-	//Array of blocks
+	// Array of blocks
 	const int BLOCKDIMX = 2;
 	const int BLOCKDIMY = 4;
+	int dx = 0;
+
+	
+
 
 private:
-	// List of figures
-	const int figures[NFIG][DIM] =
-	{
+	const int figures[NFIG][DIM] = {
 		0,0,0,0, // A single block
 		0,0,1,1, // 2 block side by side
 		0,0,2,2, // 2 blocks vertical
@@ -67,43 +65,42 @@ private:
 	const int points[NFIG] = {
 		// Define the points for each block.
 		// Ex: 1 (in the case of 0,0,0,0) ...
+		4,
+		4,
+		4,
+		4,
+		4,
+		4,
+		4,
+		4,
+		4,
+		4,
+		2,
+		2,
+		3,
+		3,
+		3,
+		3,
 		1,
-		2,
-		2,
-		3,
-		3,
-		3,
-		3,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-		4,
-
+		3
 	};
+	// The block
 	struct Block {
 		int x, y;
 	}
 	posX[DIM] = { 0, 0, 0, 0 },
-		posY[DIM] = { 0, 0, 0, 0 };
+	posY[DIM] = { 0, 0, 0, 0 };
 
-public:
 	inline bool nextMovement(int space[MAXLIN][MAXCOL]) {
 		for (int i = 0; i < DIM; i++)
 			if (posX[i].x < 0 || posX[i].x >= MAXCOL || posX[i].y >= MAXLIN) {
-				return false;
+				return true;
 			}
 			else if (space[posX[i].y][posX[i].x]) {
-				return false;
+				return true;
 			}
-		return true;
-	};
+		return false;
+	}
 	void checksFill(int space[MAXLIN][MAXCOL]) {
 		int k = MAXLIN - 1;
 		for (int i = MAXLIN - 1; i > 0; i--) {
@@ -114,148 +111,175 @@ public:
 				}
 				space[k][j] = space[i][j];
 			}
-			if (count < MAXCOL) {
+			if (count < MAXCOL)
 				k--;
-			}
 		}
 	}
 	void horizontalMovement(int space[MAXLIN][MAXCOL], int dx) {
 		for (int i = 0; i < DIM; i++) {
-			posX[i] = posY[i];
+			// TODO: Update posX and posY
+			posY[i] = posX[i];
 			posX[i].x += dx;
 		}
-		if (nextMovement(space)) {
-			for (int i = 0; i < DIM; i++) {
+		if (nextMovement(space))
+			for (int i = 0; i < DIM; i++)
+				// TODO: Update posX
 				posX[i] = posY[i];
-			}
-		}
 	}
 	void rotationalMovement(int space[MAXLIN][MAXCOL]) {
-		Block p = posX[1]; //Central position
+		Block p = posX[1]; // Central position
 		for (int i = 0; i < DIM; i++) {
+			//update
 			int x = posX[i].y - p.y;
 			int y = posX[i].x - p.x;
 			posX[i].x = p.x - x;
 			posX[i].y = p.y + y;
 		}
-		if (nextMovement(space)) {
-			for (int i = 0; i < DIM; i++) {
+		if (nextMovement(space))
+			for (int i = 0; i < DIM; i++)
 				posX[i] = posY[i];
-			}
-		}
 	}
 	void downMovement() {
 		for (int i = 0; i < DIM; i++) {
 			posX[i].y += 1;
-			posY[i].y += 1;
 		}
 	}
 	int createBlock(int space[MAXLIN][MAXCOL], int colorNum) {
 		int currentBlock;
+		int poX, poY;
 		// Updates all positions to create a new block
 		for (int i = 0; i < DIM; i++) {
-			space[posX[i].y][posX[i].x] = colorNum;
+			poY = posY[i].y;
+			poX = posY[i].x;
+			space[poY][poX] = colorNum;
+
 		}
 		currentBlock = rand() % NFIG;
-		for (int i = 0; i < DIM; i++) {
-			posX[i].x = figures[currentBlock][i] % 2;
-			posX[i].y = figures[currentBlock][i] % 2;
-		}
 		return currentBlock;
 	}
 	void updateBlock(int currentBlock, int dx) {
 		for (int i = 0; i < DIM; i++) {
-			posX[i].x = figures[currentBlock][i];
-			posX[i].x += dx;
-			posX[i].y = figures[currentBlock][i];
+			int poX, poY;
+
+			for (int i = 0; i < DIM; i++) {
+				poX = figures[currentBlock][i] % 2 + dx;
+				poY = figures[currentBlock][i] / 2;
+				posX[i].x = poX;
+				posX[i].y = poY;
+			}
 		}
 	}
-	inline int play(long curTimeout, int curTurn, Player player, int limTimeout) {
-
+public:
+	inline int play(float& currentTimeout, int currentTurn, Player player, int limTimeout) {
 		// Game Model
 		int model[MAXLIN][MAXCOL] = { 0 };
 		// Timeout
 		Clock clock;
 		// Default delay
-		float delay = 0.3f / curTimeout;// Accelerate the game according to the current turn
+		float delay = 0.3f / currentTurn; // Accelerate the game according to the current turn
 		// Boolean variables for execution
 		bool rotate = false;
 		bool stop = false;
-		int totpoints = player.getPoints();
-		string playername = player.getName();
 		bool isFinished = false;
 		bool endGame = false;
 		float timer = 0;
-		int dx;
+		int totpoints = 1;
+		int dx = 0;
 		int colorNum = 1;
-		string title;
+		int currentBlock = 0;
+		string title = "Tetris - " + player.getName() + " Turn: " + to_string(currentTurn);
 		Text text;
 
-
-		//Window definition
-		RenderWindow window(VideoMode(WIDTH, HEIGHT), "Tetris");
+		// Window definition
+		RenderWindow window(VideoMode(WIDTH, HEIGHT), title);
 		// Texture to be used
 		Texture t1, t2;
-		t1.loadFromFile("tiles.png"); // Tiles tocompose blocks
-		t2.loadFromFile("tetris1.png"); //Background
+		t1.loadFromFile("tiles.png"); // Tiles to compose blocks
+		t2.loadFromFile("tetris1.png"); // Background
 		Sprite space(t1), background(t2);
-		//window.clear();
-		window.draw(background);
-		window.display();
-		//Main loop: While the window is not closed and there is possibility to continue playing
+
 		while (window.isOpen() && !isFinished && !endGame) {
-			//Start and updates the timer
+			// Start and updates the timer
 			float time = clock.getElapsedTime().asSeconds();
 			clock.restart();
 			timer += time;
 
-			//Event evalution
+			// Event evaluation
 			Event e;
 			while (window.pollEvent(e)) {
-				if (e.type == Event::KeyPressed) {
-					if (Keyboard::isKeyPressed(Keyboard::Down)) {
-						delay = 0.05;
-					}
-					else if (e.key.code == Keyboard::Up) {
-						rotationalMovement(model);
-					}
-					else if (e.key.code == Keyboard::Left) {
-						dx = -1;
-						horizontalMovement(model, dx);
-					}
-					else if (e.key.code == Keyboard::Right) {
-						dx = 1;
-						horizontalMovement(model, dx);
-					}
-					else if (e.key.code == Keyboard::Down) {
-						downMovement();
-					}
-				}
 				if (e.type == Event::Closed) {
 					window.close();
 				}
+				// Test keyboard
+				if (e.type == Event::KeyPressed) {
+					if (e.key.code == Keyboard::Up) {
+						rotate = true;;
+						break;
+					}
+					else if (e.key.code == Keyboard::Down) {
+						delay = 0.05f / currentTurn;
+						stop = false;
+						break;
+					}
+					else if (e.key.code == Keyboard::Left) {
+						dx = -1;
+						break;
+					}
+					else if (e.key.code == Keyboard::Right) {
+						dx = 1;
+						break;
+					}
+
+					else if (e.key.code == Keyboard::Space) {
+						stop = !stop;
+						break;
+					}
+					// Esc key
+					else if (e.key.code == Keyboard::Escape) {
+						isFinished = true;
+						for (int i = 0; i < DIM; i++) {
+							posY[i].y = 0;
+							posX[i].x = 0;
+							posY[i].x = 0;
+							posX[i].y = 0;
+						}
+						break;
+					}
+				}
 			} // While: Keyboard event
 
-			//Clock update
+			//movements horizontal
+			horizontalMovement(model, dx);
+			//Rotational
+			if (rotate)
+				rotationalMovement(model);
+
+			// Clock update
 			if (timer > delay && !stop) {
-				//TODO: Action independent from user
-				//Movements from block
+				downMovement();
 				if (nextMovement(model)) {
-					int newBlock = createBlock(model, colorNum);
-
-					colorNum = rand() % NCOLOR;
-
-					// TODO: Calculate the variation dx ?????
-
-					updateBlock(newBlock, dx);
-
-					totpoints += points[newBlock];
+					currentBlock = createBlock(model, colorNum);
+					colorNum = rand() % NCOLOR + 1;
+					dx = 0;
+					updateBlock(currentBlock, dx);
+					totpoints += points[currentBlock];
 				}
-				curTimeout += timer;
-				if (curTimeout > limTimeout) {
+
+				currentTimeout += timer;
+				cout << currentTimeout << endl;
+				if (currentTimeout > limTimeout) {
 					endGame = true;
+					for (int i = 0; i < DIM; i++) {
+						posX[i].x = 0;
+						posX[i].y = 0;
+						posY[i].x = 0;
+						posY[i].y = 0;
+					}
+
 				}
+				//set timer = 0
 				timer = 0;
+
 			}
 
 			// Update data if game is not finished
@@ -264,43 +288,39 @@ public:
 				// Update from movement (and clock)
 				dx = 0;
 				rotate = 0;
-				delay = 0.3f / curTurn; // The delay will be shorter when number of turns increases
+				delay = 0.3f / currentTurn; // The delay will be shorter when number of turns increases
 				// Cleaning the window
 				window.clear(Color::Black);
 				window.draw(background);
 				// Refresh of all blocks
-				for (int i = 0; i < MAXLIN; i++) {
+				for (int i = 0; i < MAXLIN; i++)
 					for (int j = 0; j < MAXCOL; j++) {
-						if (model[i][j] == 0) {
+						if (model[i][j] == 0)
 							continue;
-						}
 						// Tetris renderization
 						space.setTextureRect(IntRect(model[i][j] * PIX, 0, PIX, PIX));
 						space.setPosition((float)j * PIX, (float)i * PIX);
 						space.move(28, 31); // positional adjustment
 						window.draw(space);
 					}
-				}
 				// New block renderization
 				for (int i = 0; i < DIM; i++) {
 					space.setTextureRect(IntRect(colorNum * PIX, 0, PIX, PIX));
 					space.setPosition((float)posX[i].x * PIX, (float)posX[i].y * PIX);
+				
 					space.move(28, 31); // positional adjustment
 					window.draw(space);
 				}
-				// TODO: Evaluate the next movement (nextMovement).
-				if (nextMovement(model) == false) {
-					stop = true;
-				}
+	
 				// Update message in the game
-				title = "Turn: " + to_string(curTurn) + " - Player: " + playername +
-					", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)curTimeout);
+				title = "Turn: " + to_string(currentTurn) + " - Player: " + player.getName() +
+					", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)currentTimeout);
 				text.setString(title);
 				window.draw(text);
 				window.display();
-			}//if not end
-		}
-		//return value
+			} // If not end
+		} // Main loop
+		 // Return value
 		return totpoints;
-	} // Main loop
+	} // play funtion
 };

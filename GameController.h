@@ -19,7 +19,7 @@ private:
 	//Players
 	vector<Player> playersList;
 	//Game timeout
-	long timeout = 0;
+	float timeout = 0;
 	//Number of turns
 	int numTurns = 0;
 
@@ -27,8 +27,8 @@ private:
 	//string gametitle = "Tetris Game";
 	//RenderWindow window;
 public:
-	enum GAMETYPE {ELECTRONIC, COMPETETIVE, MIXED};
-	
+	enum GAMETYPE { ELECTRONIC, COMPETETIVE, MIXED };
+
 	// Game constants
 	static const long MAXTIMEOUT = 30;
 	static const long MAXTURNS = 3;
@@ -38,7 +38,7 @@ public:
 	/*
 	* Sets timeout
 	*/
-	inline GameController setTimeout(long newTimeout) {
+	inline GameController setTimeout(float newTimeout) {
 		timeout = newTimeout;
 		return *this;
 	}
@@ -59,7 +59,7 @@ public:
 	/*
 	* Gets timeout
 	*/
-    inline long getTimeout() {
+	inline float getTimeout() {
 		return timeout;
 	}
 	/*
@@ -92,15 +92,15 @@ public:
 	/*
 	* openGame: Prints the screen for Game
 	* - Return:
-	*  Kind of game to play 
+	*  Kind of game to play
 	*/
 	inline int openGame() {
 		// Main screen : Title and dimension
-		string gametitle = "Tetris Game"; 
-		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle); 
+		string gametitle = "Tetris Game";
+		RenderWindow window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
 		//window(VideoMode(Tetris::WIDTH, Tetris::HEIGHT), gametitle);
 		//windowPtr = &window;
-		Texture t1; 
+		Texture t1;
 		t1.loadFromFile("tetris0.png"); //currently png is in x64-Debug folder
 		Sprite background;
 		background.setTexture(t1);
@@ -144,16 +144,16 @@ public:
 			window.draw(background);
 			window.display();
 		}//while
-		
+
 		/*window.clear();
-		window.draw(background); 
+		window.draw(background);
 		window.display();*/
 		return returnValue;
 	}//opengame()
-	
+
 	/*
 	Function Name: showResults
-	Purpose: 
+	Purpose:
 	Parameters: none
 	Return Value: none
 	*/
@@ -169,7 +169,7 @@ public:
 		window.draw(background);*/
 		//Set Font
 		Font font;
-		font.loadFromFile("font/sansation.tff");
+		font.loadFromFile("font/sansation.ttf");
 
 		//while(window.isOpen() && stop == false){
 			//Event e;
@@ -180,7 +180,7 @@ public:
 		Text text;
 		int i;
 		for (i = 0; i <= playersList.size(); i++) {
-		//results = (listPlayers); //do I get all the players info or just their points here? use an iterator?
+			//results = (listPlayers); //do I get all the players info or just their points here? use an iterator?
 			results = "Name: " + playersList.at(i).getName();// +" Points: " + playersList.at(i).Player::getPoints();
 			//Text text;
 			text.setFont(font);
@@ -200,7 +200,7 @@ public:
 		champ.setString(winner);
 		champ.setPosition(40.f, 330.f);
 		/*window.draw(champ);
-		
+
 		window.clear();
 		window.draw(background);
 		window.draw(text);
@@ -209,37 +209,40 @@ public:
 
 		//}//end of while isOpen
 	}
-	 
-	 /*
-	* tetrisElectronics: implementation for one-single playerof Tetrisexecution
-	* - Return:
-	*  Kind of game to play
-	*/
+
+	/*
+   * tetrisElectronics: implementation for one-single playerof Tetrisexecution
+   * - Return:
+   *  Kind of game to play
+   */
 	inline void tetrisElectronic() {
-		int curTurn = 0;
+		int curTurn = 1;
 		Player player;
 		int currentPoints;
 		std::clock_t startTime = std::clock();  //set the start time
-		double timer = 0; // start timer at 0
+		float timer = 0; // start timer at 0
 		int currPlayer = 0;
 		Tetris game = Tetris();
 
-		while (timer <= GameController::MAXTIMEOUT) {
+		while (timer <= 5) {
 			// Update the current timeout
-			long curTimeout = getTimeout();
+			float curTimeout = getTimeout();
 			// Execute the Tetris, returning the points for this player
 			currentPoints = game.play(curTimeout, curTurn, player, GameController::LIMITEDTIME);
 			/*This will determine how many seconds have passed since playing.
 			* Divides difference in clock values to how many clocks per second to generate how much time has passed.*/
-			timer = (std::clock() - startTime) / (double)CLOCKS_PER_SEC;
+			//timer = (std::clock() - startTime) / (double)CLOCKS_PER_SEC;
 			//set cfurrent timeout to the value of timer
+
+			timer += curTimeout;
+			cout << timer;
 			setTimeout((long)timer);
 			//update players points
 			playersList.at(currPlayer).setPoints(currentPoints);
-			
-			
+
+
 		}
-		
+
 	}
 
 	inline void tetrisCompetitive(int numPlayers) {
@@ -254,13 +257,13 @@ public:
 			while (currPlayer < numPlayers) {
 				player = playersList.at(currPlayer);
 				// Update the current timeout
-				long curTimeout = getTimeout();
+				float curTimeout = getTimeout();
 				// Execute the Tetris, returning the points for this player
-				currentPoints = game.play( curTimeout, curTurn, player, GameController::LIMITEDTIME);
+				currentPoints = game.play(curTimeout, curTurn, player, GameController::LIMITEDTIME);
 				// Updates the points
 				playersList.at(currPlayer).setPoints(currentPoints);
 				currPlayer++;
-			} 
+			}
 			// Turn update
 			setNumTurns(curTurn);
 			curTurn++;
@@ -272,7 +275,7 @@ public:
 		Player player;
 		int currentPoints;
 		int numPlayers = playersList.size(); //numPlayers is given by the size of players’ list
-		double timer = 0;
+		float timer = 0;
 		Tetris game = Tetris();
 
 		while (curTurn <= numTurns || timer <= GameController::MAXTIMEOUT) { //player is restricted by time or number of turns
@@ -281,7 +284,7 @@ public:
 			while (currPlayer < numPlayers) { //not sure if this while loop is correct or needed
 				player = playersList.at(currPlayer);
 				// Update the current timeout
-				long curTimeout = getTimeout();
+				float curTimeout = getTimeout();
 				// Execute the Tetris, returning the points for this player
 				currentPoints = game.play(curTimeout, curTurn, player, GameController::LIMITEDTIME);
 				// Updates the points
