@@ -1,15 +1,15 @@
-// File: Tetris.h
-// Purpose: Contains the game logic and displaying the game pieces on screen
-// Authors: Neil Bender 040882737,
-//			Nhi Banh 040 932 192,
-//			Akhond Sarah Mesbah 041009466
-// Professor: Paulo Sousa
-// Lab Instructor: Dr. Frank Emanuel
-// Course: CST 8219 - LAB 302
-// Assignment: Final Project
-// Due Date: 15 August 2021
-// Submission Date: 15 August 2021
-//
+/*
+* FILE:			Tetris.h
+* PURPORE:		header of file, the game class
+* AUTHOR(S):	Nhi Banh 		ID: 	040 932 192 Lab section: 301
+*				Neil Bender		ID:		040 882 737 Labsection : 302
+*				Akhond Sarah Mesbah	ID:	041 009 466 Labsection : 303
+* PROFESSOR:	Paulo Sousa
+* Lab Instructor: Dr. Frank Emanuel
+* COURSE:		C++ Programming
+* Assignment: Final Project ( Implementing a Real Game and Multiple Scenario )
+* Due Date: 14 August 2021
+*/
 
 #pragma once
 #include <SFML/Graphics.hpp>
