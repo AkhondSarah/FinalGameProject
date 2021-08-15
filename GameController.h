@@ -1,3 +1,16 @@
+// File: GameController.h
+// Purpose: Houses the info for the three different game types and updates the main menu and winner screen
+// Authors: Neil Bender 040882737,
+//			Nhi Banh 040 932 192,
+//			Akhond Sarah Mesbah 041009466
+// Professor: Paulo Sousa
+// Lab Instructor: Dr. Frank Emanuel
+// Course: CST 8219 - LAB 302
+// Assignment: Final Project
+// Due Date: 15 August 2021
+// Submission Date: 15 August 2021
+//
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
@@ -89,10 +102,12 @@ public:
 		}
 		return list;
 	}
+
 	/*
-	* openGame: Prints the screen for Game
-	* - Return:
-	*  Kind of game to play
+	Function Name: openGame
+	Purpose: Creates and displays the main menu screen
+	Parameters: none
+	Return Value: none
 	*/
 	inline int openGame() {
 		// Main screen : Title and dimension
@@ -153,7 +168,7 @@ public:
 
 	/*
 	Function Name: showResults
-	Purpose:
+	Purpose: Displays all the player's results and shows who the winner was
 	Parameters: none
 	Return Value: none
 	*/
@@ -169,7 +184,7 @@ public:
 		window.draw(background);*/
 		//Set Font
 		Font font;
-		font.loadFromFile("font/sansation.ttf");
+		font.loadFromFile("sansation.ttf");
 
 		//while(window.isOpen() && stop == false){
 			//Event e;
@@ -211,10 +226,11 @@ public:
 	}
 
 	/*
-   * tetrisElectronics: implementation for one-single playerof Tetrisexecution
-   * - Return:
-   *  Kind of game to play
-   */
+	Function Name: tetrisElectronic
+	Purpose: Starts an electronic game of tetris with one player
+	Parameters: none
+	Return Value: none
+	*/
 	inline void tetrisElectronic() {
 		int curTurn = 1;
 		Player player;
@@ -245,6 +261,12 @@ public:
 
 	}
 
+	/*
+	Function Name: tetrisCompetetive
+	Purpose: Starts a competitive game of tetris with multiple players
+	Parameters: none
+	Return Value: none
+	*/
 	inline void tetrisCompetitive(int numPlayers) {
 		int curTurn;
 		Player player;
@@ -270,6 +292,12 @@ public:
 		}
 	}
 
+	/*
+	Function Name: tetrisMixed
+	Purpose: Starts a mixed game of tetris with multiple players
+	Parameters: none
+	Return Value: none
+	*/
 	inline void tetrisMixed() {
 		int curTurn;
 		Player player;

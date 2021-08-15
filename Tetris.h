@@ -1,3 +1,16 @@
+// File: Tetris.h
+// Purpose: Contains the game logic and displaying the game pieces on screen
+// Authors: Neil Bender 040882737,
+//			Nhi Banh 040 932 192,
+//			Akhond Sarah Mesbah 041009466
+// Professor: Paulo Sousa
+// Lab Instructor: Dr. Frank Emanuel
+// Course: CST 8219 - LAB 302
+// Assignment: Final Project
+// Due Date: 15 August 2021
+// Submission Date: 15 August 2021
+//
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>

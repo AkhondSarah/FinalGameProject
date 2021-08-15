@@ -1,3 +1,16 @@
+// File: Player.h
+// Purpose: Contains the player list and all the player info
+// Authors: Neil Bender 040882737,
+//			Nhi Banh 040 932 192,
+//			Akhond Sarah Mesbah 041009466
+// Professor: Paulo Sousa
+// Lab Instructor: Dr. Frank Emanuel
+// Course: CST 8219 - LAB 302
+// Assignment: Final Project
+// Due Date: 15 August 2021
+// Submission Date: 15 August 2021
+//
+
 #pragma once
 
 #include <iostream>

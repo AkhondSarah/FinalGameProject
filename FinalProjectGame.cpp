@@ -1,4 +1,14 @@
-﻿// FinalProjectGame.cpp : Defines the entry point for the application.
+﻿// File: FinalProjectGame.cpp
+// Purpose: This houses the main method, and deals with calling the different game functions
+// Authors: Neil Bender 040882737,
+//			Nhi Banh 040 932 192,
+//			Akhond Sarah Mesbah 041009466
+// Professor: Paulo Sousa
+// Lab Instructor: Dr. Frank Emanuel
+// Course: CST 8219 - LAB 302
+// Assignment: Final Project
+// Due Date: 15 August 2021
+// Submission Date: 15 August 2021
 //
 using namespace std;
 
