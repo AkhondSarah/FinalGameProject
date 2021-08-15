@@ -146,7 +146,7 @@ public:
 	}
 	void downMovement() {
 		for (int i = 0; i < DIM; i++) {
-			posX[i].y += 1;
+			//posX[i].y += 1;
 			posY[i].y += 1;
 		}
 	}
@@ -177,7 +177,7 @@ public:
 		// Timeout
 		Clock clock;
 		// Default delay
-		float delay = 0.3f / curTimeout;// Accelerate the game according to the current turn
+		float delay = 0.3f / curTurn;// Accelerate the game according to the current turn
 		// Boolean variables for execution
 		bool rotate = false;
 		bool stop = false;
@@ -209,6 +209,8 @@ public:
 			clock.restart();
 			timer += time;
 
+			
+
 			//Event evalution
 			Event e;
 			while (window.pollEvent(e)) {
@@ -229,6 +231,9 @@ public:
 					}
 					else if (e.key.code == Keyboard::Down) {
 						downMovement();
+					}
+					else if (e.key.code == Keyboard::Escape) {
+						endGame = true; //end game if escape is pressed
 					}
 				}
 				if (e.type == Event::Closed) {

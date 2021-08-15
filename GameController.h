@@ -1,3 +1,16 @@
+// File: GameController.h
+// Purpose: Houses the info for the three different game types and updates the main menu and winner screen
+// Authors: Neil Bender 040882737,
+//			Nhi Banh 040 932 192,
+//			Akhond Sarah Mesbah 041009466
+// Professor: Paulo Sousa
+// Lab Instructor: Dr. Frank Emanuel
+// Course: CST 8219 - LAB 302
+// Assignment: Final Project
+// Due Date: 14 August 2021
+// Submission Date: 14 August 2021
+//
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
@@ -89,10 +102,12 @@ public:
 		}
 		return list;
 	}
+
 	/*
-	* openGame: Prints the screen for Game
-	* - Return:
-	*  Kind of game to play 
+	Function Name: openGame
+	Purpose: Creates the amin menu window and opens the game type selected by the user
+	Parameters: none
+	Return Value: none
 	*/
 	inline int openGame() {
 		// Main screen : Title and dimension
@@ -153,7 +168,7 @@ public:
 	
 	/*
 	Function Name: showResults
-	Purpose: 
+	Purpose: Displays the results of all the players, and shows the winner
 	Parameters: none
 	Return Value: none
 	*/
@@ -182,13 +197,13 @@ public:
 		for (i = 0; i <= playersList.size(); i++) {
 		//results = (listPlayers); //do I get all the players info or just their points here? use an iterator?
 			results = "Name: " + playersList.at(i).getName();// +" Points: " + playersList.at(i).Player::getPoints();
-			//Text text;
+			Text text;
 			text.setFont(font);
 			text.setCharacterSize(14);
 			text.setFillColor(Color::Yellow);
 			text.setString(results);
 			text.setPosition(40.f, 80.f);
-			//window.draw(text);
+			window.draw(text);
 		}
 
 		//display winner info
@@ -210,10 +225,11 @@ public:
 		//}//end of while isOpen
 	}
 	 
-	 /*
-	* tetrisElectronics: implementation for one-single playerof Tetrisexecution
-	* - Return:
-	*  Kind of game to play
+	/*
+	Function Name: tetrisElectronic
+	Purpose: Creates an electronic game with one player
+	Parameters: none
+	Return Value: none
 	*/
 	inline void tetrisElectronic() {
 		int curTurn = 0;
@@ -242,6 +258,12 @@ public:
 		
 	}
 
+	/*
+	Function Name: tetrisCompetetive
+	Purpose: Creates a competetive tetris game with multiple players
+	Parameters: numPlayers = number of players in the game
+	Return Value: none
+	*/
 	inline void tetrisCompetitive(int numPlayers) {
 		int curTurn = 0;
 		Player player;
@@ -267,11 +289,17 @@ public:
 		}
 	}
 
+	/*
+	Function Name: tetrisMixed
+	Purpose: Creates a mixed tetris game with multiple players
+	Parameters: numPlayers = number of players in the game
+	Return Value: none
+	*/
 	inline void tetrisMixed(int numberPlayers) {
 		int curTurn = 0;
 		Player player;
 		int currentPoints;
-		int numPlayers = numberPlayers; //numPlayers is given by the size of players’ list
+		int numPlayers = numberPlayers; //numPlayers is passed as a parameter from main
 		double timer = 0;
 		Tetris game = Tetris();
 
