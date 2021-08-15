@@ -268,7 +268,7 @@ public:
 	Return Value: none
 	*/
 	inline void tetrisCompetitive(int numPlayers) {
-		int curTurn;
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
 		int timer;
@@ -298,11 +298,11 @@ public:
 	Parameters: none
 	Return Value: none
 	*/
-	inline void tetrisMixed() {
-		int curTurn;
+	inline void tetrisMixed(int numberPlayers) {
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
-		int numPlayers = playersList.size(); //numPlayers is given by the size of players’ list
+		int numPlayers = numberPlayers; //numPlayers is given by the size of players’ list
 		float timer = 0;
 		Tetris game = Tetris();
 

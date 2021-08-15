@@ -72,11 +72,22 @@ int main()
 		    controler.showResults();
 		}
 		else if (answer == 2) {
-			//controler.tetrisCompetetive();
+			// Competetive Game
+			int numPlayers = 2;
+			vector<Player> list = controler.createPlayersList(numPlayers);
+			controler.setPlayerList(list);
 
+			controler.tetrisCompetitive(numPlayers);
+			controler.showResults();
 		}
 		else if (answer == 3) {
-			//controler.tetrisMixed();
+			// Mixed Game
+			int numPlayers = 3;
+			vector<Player> list = controler.createPlayersList(numPlayers);
+			controler.setPlayerList(list);
+
+			controler.tetrisMixed(numPlayers);
+			controler.showResults();
 
 		}
 			
