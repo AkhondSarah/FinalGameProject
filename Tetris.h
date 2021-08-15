@@ -1,3 +1,17 @@
+/*
+* FILE:			Tetris.h
+* PURPORE:		header of file, the game class
+* AUTHOR(S):	Nhi Banh 		ID: 	040 932 192 Lab section: 301
+*				Neil Bender		ID:		040 882 737 Labsection : 302
+*				Akhond Sarah Mesbah	ID:	041 009 466 Labsection : 303
+* PROFESSOR:	Paulo Sousa 
+* Lab Instructor: Dr. Frank Emanuel
+* COURSE:		C++ Programming  
+* Assignment: Final Project ( Implementing a Real Game and Multiple Scenario )
+* Due Date: 14 August 2021
+*/
+
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -12,12 +26,28 @@ using namespace sf;
 using namespace std;
 
 /*Tetris class :
-	*The original code was developed by Fam Trinliin
-	* his YouTube channel(see the following URL) : https ://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.
-	*we use the concepts of electronic gameand competetive game here
+* The original code was developed by Fam Trinliin in his YouTube channel(see the following URL) : 
+* https ://www.youtube.com/watch?v=zH_omFPqMO4&list=PLB_ibvUSN7mzUffhiay5g5GUHyJRO4DYr.	*we use the concepts of electronic gameand competetive game here
 */
-class Tetris {
 
+/******************************************************
+* Class name:	GameT
+* Purpose:		define the game object.
+* Properties:
+*  WIDTH = the width of the game.
+*  HEIGHT = the height of the game.
+*  MAXLIN = max liner in GRID.
+*  MAXCOL = the maximum position.
+*  DIM = the number of squares.
+*  NFIG = number of block's type
+*  NCOLOR = number of color.
+*  PIX = the size of the pixels
+*  player = curretn player
+*  currentTimeout : the current value for the timeout
+*  currentTurn= cureent turn 
+*  limTimeout: limit of the timeout execution
+*******************************************************/
+class Tetris {
 public:
 	//Size of the screen
 	static const int WIDTH = 480;
@@ -25,7 +55,7 @@ public:
 	//Positions (GRID)
 	static const int MAXLIN = 20;
 	static const int MAXCOL = 20;
-	//Picture representation
+	// Block dimension
 	static const int DIM = 4;
 	// Number of blocks
 	static const int NFIG = 18;
@@ -36,9 +66,6 @@ public:
 	const int BLOCKDIMX = 2;
 	const int BLOCKDIMY = 4;
 	int dx = 0;
-
-	
-
 
 private:
 	const int figures[NFIG][DIM] = {
@@ -91,6 +118,7 @@ private:
 	posX[DIM] = { 0, 0, 0, 0 },
 	posY[DIM] = { 0, 0, 0, 0 };
 
+	//Checks if it is required to next movement
 	inline bool nextMovement(int space[MAXLIN][MAXCOL]) {
 		for (int i = 0; i < DIM; i++)
 			if (posX[i].x < 0 || posX[i].x >= MAXCOL || posX[i].y >= MAXLIN) {
@@ -101,66 +129,77 @@ private:
 			}
 		return false;
 	}
+	//Checks the last level is completely filled
 	void checksFill(int space[MAXLIN][MAXCOL]) {
 		int k = MAXLIN - 1;
 		for (int i = MAXLIN - 1; i > 0; i--) {
 			int count = 0;
 			for (int j = 0; j < MAXCOL; j++) {
 				if (space[i][j]) {
-					count++;
+					count++; // update count
 				}
 				space[k][j] = space[i][j];
 			}
 			if (count < MAXCOL)
-				k--;
+				k--; //update k
 		}
 	}
+	//using left/right arrows to adujst the Tetris movement in the broad
 	void horizontalMovement(int space[MAXLIN][MAXCOL], int dx) {
 		for (int i = 0; i < DIM; i++) {
-			// TODO: Update posX and posY
+			//update posX and posY
 			posY[i] = posX[i];
 			posX[i].x += dx;
 		}
+		//if the next movement is the space
 		if (nextMovement(space))
 			for (int i = 0; i < DIM; i++)
-				// TODO: Update posX
+				//update posX
 				posX[i] = posY[i];
-	}
+	} // end horizontalMovement
+	//using up arrow to rotate the block to adjust the Tetris movement in the broard
 	void rotationalMovement(int space[MAXLIN][MAXCOL]) {
 		Block p = posX[1]; // Central position
 		for (int i = 0; i < DIM; i++) {
-			//update
 			int x = posX[i].y - p.y;
 			int y = posX[i].x - p.x;
+			//update posX and posY
 			posX[i].x = p.x - x;
 			posX[i].y = p.y + y;
 		}
+		//if the next movement is the space
 		if (nextMovement(space))
 			for (int i = 0; i < DIM; i++)
+				//update posX
 				posX[i] = posY[i];
 	}
+	// the block always going down
 	void downMovement() {
 		for (int i = 0; i < DIM; i++) {
+			//update
 			posX[i].y += 1;
 		}
 	}
+	// new block is generated and a color is passed to be used during the color.
 	int createBlock(int space[MAXLIN][MAXCOL], int colorNum) {
-		int currentBlock;
+		int currentBlock; //indicates the current block
 		int poX, poY;
 		// Updates all positions to create a new block
 		for (int i = 0; i < DIM; i++) {
+			//update the color of space
 			poY = posY[i].y;
 			poX = posY[i].x;
 			space[poY][poX] = colorNum;
-
 		}
+		// using the range of number of figures
 		currentBlock = rand() % NFIG;
+		// return a new currentBlock randomly
 		return currentBlock;
 	}
+	//updates the position of the game 
 	void updateBlock(int currentBlock, int dx) {
 		for (int i = 0; i < DIM; i++) {
 			int poX, poY;
-
 			for (int i = 0; i < DIM; i++) {
 				poX = figures[currentBlock][i] % 2 + dx;
 				poY = figures[currentBlock][i] / 2;
@@ -170,6 +209,7 @@ private:
 		}
 	}
 public:
+	/**/
 	inline int play(float& currentTimeout, int currentTurn, Player player, int limTimeout) {
 		// Game Model
 		int model[MAXLIN][MAXCOL] = { 0 };
@@ -178,12 +218,12 @@ public:
 		// Default delay
 		float delay = 0.3f / currentTurn; // Accelerate the game according to the current turn
 		// Boolean variables for execution
-		bool rotate = false;
+		bool rotate = false; //The rotat
 		bool stop = false;
 		bool isFinished = false;
 		bool endGame = false;
-		float timer = 0;
-		int totpoints = 1;
+		float timer = 0; //the timer
+		int totpoints = 1; //the total
 		int dx = 0;
 		int colorNum = 1;
 		int currentBlock = 0;
@@ -275,13 +315,10 @@ public:
 						posY[i].x = 0;
 						posY[i].y = 0;
 					}
-
 				}
 				//set timer = 0
 				timer = 0;
-
 			}
-
 			// Update data if game is not finished
 			if (!endGame) {
 				checksFill(model);
@@ -311,7 +348,6 @@ public:
 					space.move(28, 31); // positional adjustment
 					window.draw(space);
 				}
-	
 				// Update message in the game
 				title = "Turn: " + to_string(currentTurn) + " - Player: " + player.getName() +
 					", Points: " + to_string(totpoints) + " - Timeout: " + to_string((long)currentTimeout);
@@ -323,4 +359,4 @@ public:
 		 // Return value
 		return totpoints;
 	} // play funtion
-};
+}; // end the class 
