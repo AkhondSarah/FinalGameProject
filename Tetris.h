@@ -1,12 +1,12 @@
 /*
 * FILE:			Tetris.h
-* PURPORE:		header of file, the game class
+* PURPORE:		header of file, the game Tetris class
 * AUTHOR(S):	Nhi Banh 		ID: 	040 932 192 Lab section: 301
-*				Neil Bender		ID:		040 882 737 Labsection : 302
-*				Akhond Sarah Mesbah	ID:	041 009 466 Labsection : 303
+*				Neil Bender		ID:		040 882 737 Lab section : 302
+*				Akhond Sarah Mesbah	ID:	041 009 466 Lab section : 303
 * PROFESSOR:	Paulo Sousa
 * Lab Instructor: Dr. Frank Emanuel
-* COURSE:		C++ Programming
+* COURSE:		CST8219 C++ Programming
 * Assignment: Final Project ( Implementing a Real Game and Multiple Scenario )
 * Due Date: 14 August 2021
 */

@@ -1,5 +1,16 @@
+/*
+* FILE:			FinalProjectGame.cpp
+* PURPORE:		This houses the info for the three different game types and updates the main menu and winner screen
+* AUTHOR(S):	Nhi Banh 		ID: 	040 932 192 Lab section: 301
+*				Neil Bender		ID:		040 882 737 Lab section : 302
+*				Akhond Sarah Mesbah	ID:	041 009 466 Lab section : 303
+* PROFESSOR:	Paulo Sousa
+* Lab Instructor: Dr. Frank Emanuel
+* COURSE:		CST8219 C++ Programming
+* Assignment: Final Project ( Implementing a Real Game and Multiple Scenario )
+* Due Date: 14 August 2021
+*/
 #pragma once
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <time.h>
@@ -9,10 +20,8 @@
 #include <limits.h>
 #include "Player.h"
 #include "Tetris.h"
-
 using namespace sf;
 using namespace std;
-
 
 class GameController {
 private:
@@ -28,7 +37,6 @@ private:
 	//RenderWindow window;
 public:
 	enum GAMETYPE { ELECTRONIC, COMPETETIVE, MIXED };
-
 	// Game constants
 	static const long MAXTIMEOUT = 30;
 	static const long MAXTURNS = 3;
@@ -80,7 +88,6 @@ public:
 	*/
 	inline vector<Player> createPlayersList(int nPlayers) {
 		vector<Player> list;
-
 		// starts the player list (directly)
 		for (int i = 0; i < nPlayers; i++) {
 			Player player;
@@ -90,9 +97,10 @@ public:
 		return list;
 	}
 	/*
-	* openGame: Prints the screen for Game
-	* - Return:
-	*  Kind of game to play
+	Function Name: openGame
+	Purpose: Creates and displays the main menu screen
+	Parameters: none
+	Return Value: none
 	*/
 	inline int openGame() {
 		// Main screen : Title and dimension
@@ -104,9 +112,7 @@ public:
 		t1.loadFromFile("tetris0.png"); //currently png is in x64-Debug folder
 		Sprite background;
 		background.setTexture(t1);
-		//window.draw(background);
-		//window.display();
-		// Basic loop; renderization
+	
 		int returnValue = -1;
 		while (window.isOpen() && returnValue == -1) {
 			Event e;
@@ -144,16 +150,12 @@ public:
 			window.draw(background);
 			window.display();
 		}//while
-
-		/*window.clear();
-		window.draw(background);
-		window.display();*/
 		return returnValue;
 	}//opengame()
 
 	/*
 	Function Name: showResults
-	Purpose:
+	Purpose: Displays all the player's results and shows who the winner was
 	Parameters: none
 	Return Value: none
 	*/
@@ -169,7 +171,7 @@ public:
 		window.draw(background);*/
 		//Set Font
 		Font font;
-		font.loadFromFile("font/sansation.ttf");
+		font.loadFromFile("sansation.ttf");
 
 		//while(window.isOpen() && stop == false){
 			//Event e;
@@ -190,7 +192,6 @@ public:
 			text.setPosition(40.f, 80.f);
 			//window.draw(text);
 		}
-
 		//display winner info
 		string winner;
 		//get winner info
@@ -199,22 +200,14 @@ public:
 		champ.setCharacterSize(16);
 		champ.setString(winner);
 		champ.setPosition(40.f, 330.f);
-		/*window.draw(champ);
-
-		window.clear();
-		window.draw(background);
-		window.draw(text);
-		window.draw(champ);
-		window.display();*/
-
-		//}//end of while isOpen
 	}
 
 	/*
-   * tetrisElectronics: implementation for one-single playerof Tetrisexecution
-   * - Return:
-   *  Kind of game to play
-   */
+	Function Name: tetrisElectronic
+	Purpose: Starts an electronic game of tetris with one player
+	Parameters: none
+	Return Value: none
+	*/
 	inline void tetrisElectronic() {
 		int curTurn = 1;
 		Player player;
@@ -229,24 +222,22 @@ public:
 			float curTimeout = getTimeout();
 			// Execute the Tetris, returning the points for this player
 			currentPoints = game.play(curTimeout, curTurn, player, GameController::LIMITEDTIME);
-			/*This will determine how many seconds have passed since playing.
-			* Divides difference in clock values to how many clocks per second to generate how much time has passed.*/
-			//timer = (std::clock() - startTime) / (double)CLOCKS_PER_SEC;
 			//set cfurrent timeout to the value of timer
-
 			timer += curTimeout;
 			cout << timer;
 			setTimeout((long)timer);
 			//update players points
 			playersList.at(currPlayer).setPoints(currentPoints);
-
-
 		}
-
 	}
-
+	/*
+	Function Name: tetrisCompetetive
+	Purpose: Starts a competitive game of tetris with multiple players
+	Parameters: none
+	Return Value: none
+	*/
 	inline void tetrisCompetitive(int numPlayers) {
-		int curTurn;
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
 		int timer;
@@ -270,11 +261,17 @@ public:
 		}
 	}
 
-	inline void tetrisMixed() {
-		int curTurn;
+	/*
+	Function Name: tetrisMixed
+	Purpose: Starts a mixed game of tetris with multiple players
+	Parameters: none
+	Return Value: none
+	*/
+	inline void tetrisMixed(int numberPlayers) {
+		int curTurn = 0;
 		Player player;
 		int currentPoints;
-		int numPlayers = playersList.size(); //numPlayers is given by the size of players’ list
+		int numPlayers = numberPlayers; //numPlayers is given by the size of players’ list
 		float timer = 0;
 		Tetris game = Tetris();
 
